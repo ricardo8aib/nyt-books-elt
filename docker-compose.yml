@@ -11,6 +11,6 @@ services:
       - ./output_db:/app/output_db
     environment:
       - START_DATE=2021-01-01
-      - END_DATE=2021-01-01
-      - API_KEY=API_KEY
+      - END_DATE=2024-01-01
+      - API_KEY=API
     command: /bin/bash /app/elt.sh
