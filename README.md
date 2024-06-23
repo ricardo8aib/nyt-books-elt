@@ -37,9 +37,9 @@ services:
 
 1. Clone the repository: Clone the repository to your local machine.
 
-2. Add your API key: Replace the value of the API_KEY environment variable in the Docker Compose file with your New York Times API key.
+2. Add your API key: Replace the value of the `API_KEY` environment variable in the Docker Compose file with your New York Times API key.
 
-3. Optional: Modify the START_DATE and END_DATE environment variables in the Docker Compose file to specify the date range for data retrieval. Have in mind that depending on the date range, the data retrieval process may take longer (up to 30 minutes for the data between 2021 and 2023). A set of pre-calculated results are available in the core/sql_queries/results directory for the years 2021 to 2023.
+3. Optional: Modify the `START_DATE` and `END_DATE` environment variables in the Docker Compose file to specify the date range for data retrieval. Have in mind that depending on the date range, the data retrieval process may take longer (up to 30 minutes for the data between 2021 and 2023). A set of pre-calculated results are available in the `core/sql_queries/results` directory for the years 2021 to 2023.
 
 4. Build the Docker container: Run the following command to build the Docker container.
 
@@ -53,7 +53,7 @@ services:
     docker-compose up
     ```
 
-6. Check the results: After the ELT process is complete, you can find the results of the SQL queries in the core/sql_queries/results directory and the output database in the output_db directory. You can then connect to the output database to query the data and generate insights.
+6. Check the results: After the ELT process is complete, you can find the results of the SQL queries in the `core/sql_queries/results` directory and the output database in the output_db directory. You can then connect to the output database to query the data and generate insights.
 
 ## ELT Process
 
@@ -64,7 +64,7 @@ The data retrieval process is implemented using the dlt package in Python, which
 
 ### Dimensional Modeling
 
-Using dbt, the data is transformed into a star schema consisting of six tables: authors_dimension, books_dimension, dates_dimension, lists_dimension,  publishers_dimension and best_sellers_facts.
+Using dbt, the data is transformed into a star schema consisting of six tables: `authors_dimension`, `books_dimension`, `dates_dimension`, `lists_dimension`,  `publishers_dimension` and `best_sellers_facts`.
 
 The following diagram illustrates the star schema:
 
@@ -72,7 +72,7 @@ The following diagram illustrates the star schema:
 
 ## SQL Queries
 
-The ELT process includes the execution of specific SQL queries to generate insights from the data. The queries are stored in the core/sql_queries directory. A set of pre-calculated results are available in the core/sql_queries/results directory for the years 2021 to 2023.
+The ELT process includes the execution of specific SQL queries to generate insights from the data. The queries are stored in the `core/sql_queries` directory. A set of pre-calculated results are available in the `core/sql_queries/results` directory for the years 2021 to 2023.
 
 1. Most weeks in the top 3 ranks: This query identifies the book that spent the most weeks in the top 3 ranks:
 
@@ -90,7 +90,7 @@ The ELT process includes the execution of specific SQL queries to generate insig
     GROUP BY b.title
     ORDER BY weeks_in_top_3 DESC
     LIMIT 1
-        ``` 
+    ```
 
 2. Top 3 lists with most unique books: This query identifies the top 3 lists with the least number of unique books in their
 rankings for the entirety of the data.
