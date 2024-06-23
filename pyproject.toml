@@ -1,22 +1,21 @@
 [tool.poetry]
-name = "coign-analytics-aws-infrastructure"
+name = "nyt-books-elt"
 version = "0.1.0"
-description = ""
+description = "DE project"
 authors = ["Ricardo Ibarra <raib1997@gmail.com>"]
+readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.10"
-boto3 = "^1.34.44"
-pandas = "^2.2.0"
-numpy = "^1.26.4"
-pydantic = "^2.6.1"
-pre-commit = "^3.6.2"
-snowflake-connector-python = "^3.7.0"
-openpyxl = "^3.1.2"
-paramiko = "^3.4.0"
+python = ">=3.9,<3.13"
+dlt = "^0.4.12"
+dbt-duckdb = "^1.8.1"
+dbt-core = "^1.8.3"
+pandas = "^2.2.2"
+pydantic = "^2.7.4"
+pydantic-settings = "^2.3.3"
 
-[tool.poetry.dev-dependencies]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
