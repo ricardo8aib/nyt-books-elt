@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: nyt_books_data
+    schema: nyt_books_data
+    tables:
+      - name: nyt_books
+      - name: nyt_books__lists
+      - name: nyt_books__lists__books
