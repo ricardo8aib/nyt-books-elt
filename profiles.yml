@@ -1,0 +1,8 @@
+nyt_books_dbt:
+  outputs:
+    prod:
+      type: duckdb
+      path: /app/nyt_books.duckdb
+      threads: 1
+
+  target: prod
