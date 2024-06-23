@@ -83,8 +83,67 @@ WHERE publishers_rank <= 5
 ORDER BY year ASC, quarter ASC, publishers_rank ASC
 """
 
+teams_bought = """
+WITH ranked_books AS (
+    SELECT
+        bs.list_id,
+        b.title,w
+        bs.rank,
+        d."date"
+    FROM nyt_books.main_models.best_sellers_facts AS bs
+    JOIN nyt_books.main_models.books_dimension AS b ON bs.book_id = b.id
+    JOIN nyt_books.main_models.dates_dimension AS d ON bs.published_date_id = d.date_id
+    WHERE d.year = 2023 AND (bs.rank = 1 OR bs.rank = 3)
+    ORDER BY d."date" ASC, bs.list_id ASC
+),
+flagged AS (
+    SELECT
+    title,
+    rank,
+    "date",
+    CASE
+        WHEN title IN (
+            SELECT subquery.title
+            FROM ranked_books AS subquery
+            WHERE subquery."date" < s."date" AND subquery.rank != s.rank
+        )
+        THEN 1
+        ELSE 0
+    END AS flag
+    FROM ranked_books AS s
+    ),
+ranked AS (
+    SELECT
+        title,
+        rank,
+        "date",
+        flag,
+        ROW_NUMBER() OVER (PARTITION BY title ORDER BY date) AS rn
+    FROM flagged
+    WHERE flag = 0
+    ),
+    first_date AS (
+    SELECT
+        title,
+        rank,
+        date,
+        flag
+    FROM ranked
+    WHERE rn = 1
+    )
+    SELECT
+    title,
+    CASE
+        WHEN rank = 1 THEN 'Jakes team'
+        ELSE 'Petes team'
+    END AS bought_by
+FROM first_date
+
+"""
+
 scipts_dict: dict[str, str] = {
     "least_unique_book": least_unique_book,
     "most_weeks_in_top_3": most_weeks_in_top_3,
-    "publishers_rank": publishers_rank
+    "publishers_rank": publishers_rank,
+    "teams_bought": teams_bought
 }

@@ -165,3 +165,63 @@ rankings for the entirety of the data.
     WHERE publishers_rank <= 5
     ORDER BY year ASC, quarter ASC, publishers_rank ASC
     ```
+
+4. This final query answers this question: Two friends Jake and Pete have podcasts where they review books. Jake's team
+reviews the book ranked first on every list, while Pete’s team reviews the book
+ranked third. Both of them share books, if Jake’s team wants to review a book,
+they first check with Pete’s before buying and vice versa. Which team bought
+what book in 2023?
+
+    ```sql
+    WITH ranked_books AS (
+        SELECT
+            bs.list_id,
+            b.title, 
+            bs.rank,
+            d."date" 
+        FROM nyt_books.main_models.best_sellers_facts AS bs
+        JOIN nyt_books.main_models.books_dimension AS b ON bs.book_id = b.id
+        JOIN nyt_books.main_models.dates_dimension AS d ON bs.published_date_id = d.date_id
+        WHERE d.year = 2023 AND (bs.rank = 1 OR bs.rank = 3)
+        ORDER BY d."date" ASC, bs.list_id ASC
+    ),
+    flagged AS (
+        SELECT
+            title,
+            rank,
+            "date",
+            CASE
+                WHEN title IN (SELECT subquery.title FROM ranked_books AS subquery WHERE subquery."date" < s."date" AND subquery.rank != s.rank)
+                THEN 1
+                ELSE 0
+            END AS flag
+        FROM ranked_books AS s
+    ), 
+    ranked AS (
+        SELECT
+            title,
+            rank,
+            "date",
+            flag,
+            ROW_NUMBER() OVER (PARTITION BY title ORDER BY date) AS rn
+        FROM flagged
+        WHERE flag = 0
+    ),
+    first_date AS (
+        SELECT
+            title,
+            rank,
+            date,
+            flag
+        FROM ranked
+        WHERE rn = 1
+    )
+    SELECT
+        title,
+        CASE
+            WHEN rank = 1 THEN 'Jake´s team'
+            ELSE 'Pete´s team'
+        END AS bought_by
+    FROM first_date
+    ;
+    ```
