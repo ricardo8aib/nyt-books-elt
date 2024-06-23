@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  nyt-elt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nyt-books-app
+    container_name: nyt-elt
+    volumes:
+      - ./core/sql_queries/docker_results:/app/core/sql_queries/results
+      - ./output_db:/app/output_db
+    environment:
+      - START_DATE=2021-01-01
+      - END_DATE=2021-01-01
+      - API_KEY=API_KEY
+    command: /bin/bash /app/elt.sh
