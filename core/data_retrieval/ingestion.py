@@ -1,8 +1,9 @@
-import dlt
 import time
-from ingestion_settings import Settings
-from dlt.sources.helpers import requests
 from datetime import datetime, timedelta
+
+import dlt
+from dlt.sources.helpers import requests
+from ingestion_settings import Settings
 
 
 class Ingestion:

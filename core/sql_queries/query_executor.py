@@ -1,6 +1,7 @@
 import duckdb
 from utils.scripts import scipts_dict
 
+
 class DuckDBQueryExecutor:
     """Executes SQL queries on a DuckDB database and saves the results to a CSV file.
 
