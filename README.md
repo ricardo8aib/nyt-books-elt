@@ -53,7 +53,7 @@ services:
     docker-compose up
     ```
 
-6. Check the results: After the ELT process is complete, you can find the results of the SQL queries in the `core/sql_queries/results` directory and the output database in the output_db directory. You can then connect to the output database to query the data and generate insights.
+6. Check the results: After the ELT process is complete, you can find the results of the SQL queries in the `core/sql_queries/results` directory and the output database in the `output_db` directory. You can then connect to the output database to query the data and generate insights.
 
 ## ELT Process
 
