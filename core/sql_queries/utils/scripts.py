@@ -87,7 +87,7 @@ teams_bought = """
 WITH ranked_books AS (
     SELECT
         bs.list_id,
-        b.title,w
+        b.title,
         bs.rank,
         d."date"
     FROM nyt_books.main_models.best_sellers_facts AS bs
